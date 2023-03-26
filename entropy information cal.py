@@ -19,11 +19,11 @@ def count_chinese_chars(file_path):
     return num_chars
 
 def entropy(file_path, is_word_entropy=False, exclude_words=None):
-    # read the file contents
+    # 读取文件内容
     with open(file_path, 'r', encoding='gb18030') as f:
         text = f.read()
 
-    # count the frequency of each character or word
+    # 统计每个字符或单词的频率
     freq = {}
     if is_word_entropy:
         words = re.findall(r'\b\w+\b', text)
@@ -39,15 +39,15 @@ def entropy(file_path, is_word_entropy=False, exclude_words=None):
             else:
                 freq[char] = 1
 
-    # calculate the probability of each character or word
+    # 计算每个字符或单词的概率
     total_chars_or_words = len(text) if not is_word_entropy else len(words)
     prob = {}
     for char_or_word, count in freq.items():
-        if exclude_words and char_or_word in exclude_words:
+        if exclude_words and isinstance(exclude_words, list) and char_or_word in exclude_words:
             continue
         prob[char_or_word] = count / total_chars_or_words
 
-    # calculate the entropy
+    # 计算熵
     entropy = 0
     for prob in prob.values():
         entropy += prob * math.log(prob, 2)
@@ -58,7 +58,7 @@ def entropy(file_path, is_word_entropy=False, exclude_words=None):
 def read_txt_file(file_path):
     with open(file_path, 'r', encoding='utf_8') as f:
         text = f.read()
-    words = jieba.cut(text)
+    words = jieba.lcut(text)
     return [word for word in words]
 
 
@@ -79,3 +79,4 @@ for filename in os.listdir(directory):
         num_chars = count_chinese_chars(file_path)
         print(
             f'{filename}: character entropy = {char_entropy}, word entropy = {word_entropy}, num Chinese chars = {num_chars}')
+print(exclude_words)
