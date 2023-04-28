@@ -37,7 +37,7 @@ def assign_labels(paragraphs, labels):
                 break
     return labeled_paragraphs
 
-# 对文本进行预处理，包括分词、去除停用词等
+# 对文本进行预处理，包括分词、去除停用词等等
 def preprocess(text):
     # 分句
     sentences = sent_tokenize(text)
